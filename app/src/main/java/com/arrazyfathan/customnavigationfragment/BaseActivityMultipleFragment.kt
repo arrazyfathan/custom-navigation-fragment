@@ -3,6 +3,7 @@ package com.arrazyfathan.customnavigationfragment
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.viewbinding.ViewBinding
@@ -34,7 +35,6 @@ abstract class BaseActivityMultipleFragment<VB : ViewBinding, T> : BaseActivity(
     protected fun setFragment(pair: Pair<T, Boolean>) {
         val activeFragment = fragment(pair.first)
         activeFragmentSimpleName.value = activeFragment.javaClass.getSimpleName()
-        Log.d("activeFragment", activeFragmentSimpleName.value)
         val anim = animation(pair.second)
         currentId = pair.first
         supportFragmentManager

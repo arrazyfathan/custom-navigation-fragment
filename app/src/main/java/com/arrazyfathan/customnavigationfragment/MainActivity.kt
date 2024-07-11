@@ -2,11 +2,9 @@ package com.arrazyfathan.customnavigationfragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.arrazyfathan.customnavigationfragment.databinding.ActivityMainBinding
 import com.arrazyfathan.customnavigationfragment.fragment.OneFragment
@@ -33,6 +31,7 @@ class MainActivity : BaseActivityMultipleFragment<ActivityMainBinding, MainViewF
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        handleBackPress()
         observe()
 
     }
@@ -45,5 +44,27 @@ class MainActivity : BaseActivityMultipleFragment<ActivityMainBinding, MainViewF
 
     override fun setBinding(layoutInflater: LayoutInflater): ActivityMainBinding {
         return ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    private fun handleBackPress() {
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    when (currentId) {
+                        MainViewFragmentId.Two -> {
+                            viewModel.setPage(MainViewFragmentId.One, false)
+                        }
+                        MainViewFragmentId.Three -> {
+                            viewModel.setPage(MainViewFragmentId.Two, false)
+                        }
+
+                        MainViewFragmentId.One -> {
+                            finish()
+                        }
+                    }
+                }
+            },
+        )
     }
 }
